@@ -16,6 +16,8 @@
 (package! org-roam-bibtex)
 (package! org-ref)
 (package! ob-typescript)
+(package! empv
+  :recipe (:host github :repo "isamert/empv.el"))
 
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
