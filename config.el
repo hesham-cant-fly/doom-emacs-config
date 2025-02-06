@@ -79,6 +79,7 @@
 ;; (set-eglot-client! 'lua-mode `(,(concat "" "lua-language-server")))
 
 
+
 (use-package! elcord
   :config
   (elcord-mode))
@@ -90,16 +91,29 @@
  [backtab] #'centaur-tabs-backward
  "S-TAB"   #'centaur-tabs-backward)
 
-(use-package! org-bullets
-  :after org
-  :hook (org-mode . org-bullets-mode))
 (use-package! lsp-ui
   :commands lsp-ui-mode
   :config
   (setq lsp-ui-sideline-enable t)
   (setq lsp-ui-doc-enable t))
 
+(use-package! org-bullets
+  :after org
+  :hook (org-mode . org-bullets-mode))
+(after! org
+  (setq org-hide-emphasis-markers t
+        org-link-descriptive t
+        org-pretty-entities t
+        org-hidden-keywords nil))
 (use-package! org-ref)
+(use-package! org-appear
+  :hook (org-mode . org-appear-mode)
+  :custom
+  (org-appear-autolinks t)
+  (org-appear-autosubmarkers t)
+  (org-appear-autoentities t)
+  (org-appear-autokeywords t)
+  (org-appear-inside-latex t))
 (use-package! org-roam-ui)
 (use-package org-roam-bibtex
   :after org-roam

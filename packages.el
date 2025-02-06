@@ -16,6 +16,8 @@
 (package! org-roam-bibtex)
 (package! org-ref)
 (package! ob-typescript)
+(package! org-appear
+  :recipe (:host github :repo "awth13/org-appear"))
 (package! empv
   :recipe (:host github :repo "isamert/empv.el"))
 

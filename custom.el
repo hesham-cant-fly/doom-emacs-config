@@ -8,6 +8,7 @@
  '(doom-modeline-always-show-macro-register t)
  '(doom-modeline-height 30)
  '(elfeed-feeds '("http://www.reddit.com/r/ReverseEngineering/.rss"))
+ '(org-hide-emphasis-markers t)
  '(package-selected-packages '(org-roam-ui rainbow-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
