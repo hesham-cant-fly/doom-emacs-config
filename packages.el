@@ -7,7 +7,8 @@
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;; (package! some-package)
-(package! org-bullets)
+(package! yuck-mode)
+(package! org-modern)
 (package! lsp-ui)
 (package! spacemacs-theme)
 (package! elcord)

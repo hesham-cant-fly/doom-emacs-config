@@ -86,10 +86,10 @@
 
 (map!
  :after centaur-tabs
- :n :v :e
- "C-TAB"   #'centaur-tabs-forward
- [backtab] #'centaur-tabs-backward
- "S-TAB"   #'centaur-tabs-backward)
+ :nv "TAB"   #'centaur-tabs-forward
+ :nv [backtab] #'centaur-tabs-backward
+ :nv "S-TAB"   #'centaur-tabs-backward)
+
 
 (use-package! lsp-ui
   :commands lsp-ui-mode
@@ -97,14 +97,25 @@
   (setq lsp-ui-sideline-enable t)
   (setq lsp-ui-doc-enable t))
 
-(use-package! org-bullets
-  :after org
-  :hook (org-mode . org-bullets-mode))
+;; (use-package! org-bullets
+;;   :after org
+;; :hook (org-mode . org-bullets-mode))
 (after! org
+  ;; (add-hook! 'org-mode-hook #'org-modern-mode)
+  ;; (add-hook! 'org-agenda-finalize-hook #'org-modern-agenda)
   (setq org-hide-emphasis-markers t
         org-link-descriptive t
         org-pretty-entities t
-        org-hidden-keywords nil))
+        org-hidden-keywords nil
+
+        org-auto-align-tags nil
+        org-tags-column 0
+        org-catch-invisible-edits 'show-and-error
+        org-special-ctrl-a/e t
+        org-insert-heading-respect-content t
+
+        org-agenda-tags-column 0
+        ))
 (use-package! org-ref)
 (use-package! org-appear
   :hook (org-mode . org-appear-mode)
@@ -127,3 +138,11 @@
    '((typescript . t)
      )))
 ;; (load! "mode-line")
+
+;; (map!
+;;  :after org
+;;  :map org-mode
+;;  :leader
+;;  :prefix "t"
+;;  :prefix ("o" . "org")
+;;  :n "b" #'org-bullets-mode)
