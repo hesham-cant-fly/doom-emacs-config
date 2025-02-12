@@ -7,9 +7,12 @@
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;; (package! some-package)
+(package! catppuccin-theme)
 (package! yuck-mode)
 (package! org-modern)
 (package! lsp-ui)
+(package! glsl-mode)
+(package! company-glsl)
 (package! spacemacs-theme)
 (package! elcord)
 (package! rainbow-mode)

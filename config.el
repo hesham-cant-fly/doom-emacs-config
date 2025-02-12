@@ -33,7 +33,8 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'spacemacs-dark)
+(setq catppuccin-flavor 'mocha) ;; or 'latte, 'macchiato, or 'mocha
+(setq doom-theme 'catppuccin)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -96,7 +97,7 @@
   :config
   (setq lsp-ui-sideline-enable t)
   (setq lsp-ui-doc-enable t))
-
+(add-to-list 'company-backends 'company-glsl)
 ;; (use-package! org-bullets
 ;;   :after org
 ;; :hook (org-mode . org-bullets-mode))
