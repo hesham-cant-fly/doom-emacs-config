@@ -28,12 +28,13 @@
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
 ;; refresh your font settings. If Emacs still can't find your font, it likely
 ;; wasn't installed correctly. Font issues are rarely Doom issues!
-(setq doom-font (font-spec :size 17))
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 20))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+(setq catppuccin-flavor 'mocha) ;; or 'latte, 'macchiato, or 'mocha
+(setq doom-theme 'doom-tokyo-night)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -42,6 +43,7 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/Documents/org/")
+
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -75,6 +77,10 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+;; (set-eglot-client! 'lua-mode `(,(concat "" "lua-language-server")))
+
+
+
 (use-package! elcord
   :config
   (elcord-mode))
@@ -84,36 +90,37 @@
  :nv "TAB"   #'centaur-tabs-forward
  :nv [backtab] #'centaur-tabs-backward
  :nv "S-TAB"   #'centaur-tabs-backward)
+
+
 (use-package! lsp-ui
   :commands lsp-ui-mode
   :config
   (setq lsp-ui-sideline-enable t)
   (setq lsp-ui-doc-enable t))
 (add-to-list 'company-backends 'company-glsl)
-(use-package! org-roam-ui)
 (use-package! org-roam)
 (after! org-roam
   (setq org-roam-capture-templates
         '(
           ("d" "Default" plain
-           (file "~/Documents/org/roam/Templates/Default.org")
+           (file "~/org/roam/Templates/Default.org")
            :if-new
-           (file+head "${slug}.org" "#+title: ${title}\n")
+           (file+head "${slug}.org" "#+title: ${title}")
            :unnarrowed t)
           ("f" "Fleeting" plain
-           (file "~/Documets/org/roam/Templates/Fleeting.org")
+           (file "~/org/roam/Templates/Fleeting.org")
            :if-new
-           (file+head "Fleeting/${slug}.org" "#+title: ${title}\n")
+           (file+head "Fleeting/${slug}.org" "#+title: ${title}")
            :unnarrowed t)
           ("i" "Index" plain
-           (file "~/Documents/org/roam/Templates/Index.org")
+           (file "~/org/roam/Templates/Index.org")
            :if-new
-           (file+head "Index/${slug}.org" "#+title: Index: ${title}\n")
+           (file+head "Index/${slug}.org" "#+title: Index: ${title}")
            :unnarrowed t)
           ("s" "Source Material" plain
-           (file "~/Documents/org/roam/Templates/SourceMaterial.org")
+           (file "~/org/roam/Templates/SourceMaterial.org")
            :if-new
-           (file+head "SourceMaterial/${slug}.org" "#+title: ${title}\n")
+           (file+head "SourceMaterial/${slug}.org" "#+title: ${title}")
            :unnarrowed t)
           )
         )
@@ -150,11 +157,45 @@
     '(org-level-3 :height 1.08 :weight bold :slant normal)
     `(org-code :background ,(doom-darken 'bg 0.08))
     `(org-quote :background ,(doom-darken 'bg 0.08))))
+;;; Enhanced Task Management
+(after! org
+  ;; Todo feywords
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "PROJ(p)" "ACTV(a)" "WAIT(w)" "HOLD(h)" "|" "DONE(d)" "CNCL(c)")))
 
+  ;; Progress Visualization
+  (use-package! org-super-agenda
+    :config
+    (setq org-super-agenda-groups
+          '((:name "Today" :time-grid t)
+            (:name "Important" :priority "A")
+            (:name "Projects" :tag "project")))))
 
+;;; Code Block Presentation
 (after! org
   (setq org-src-fontify-natively t
         org-src-tab-acts-natively t
         org-src-window-setup 'current-window
         org-src-preserve-indentation t
         org-edit-src-content-indentation 0))
+
+(use-package! org-ref)
+(use-package! org-appear
+  :hook (org-mode . org-appear-mode)
+  :custom
+  (org-appear-autolinks t)
+  (org-appear-autosubmarkers t)
+  (org-appear-autoentities t)
+  (org-appear-autokeywords t)
+  (org-appear-inside-latex t))
+(use-package! org-roam-ui)
+(use-package org-roam-bibtex
+  :after org-roam
+  :config
+  (require 'org-ref))
+(use-package! ob-typescript
+  :config
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((typescript . t)
+     )))

@@ -4,24 +4,29 @@
 ;; To install a package with Doom you must declare them here and run 'doom sync'
 ;; on the command line, then restart Emacs for the changes to take effect -- or
 
+
+;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
+;; (package! some-package)
+;; (package! org-roam)
+(package! catppuccin-theme)
+(package! yuck-mode)
+(package! org-modern)
 (package! lsp-ui)
 (package! glsl-mode)
 (package! company-glsl)
+(package! spacemacs-theme)
 (package! elcord)
 (package! rainbow-mode)
 (package! org-roam-ui)
 (package! org-roam-bibtex)
 (package! org-ref)
+(package! ob-typescript)
 (package! org-appear
   :recipe (:host github :repo "awth13/org-appear"))
+(package! empv
+  :recipe (:host github :repo "isamert/empv.el"))
 (package! org-super-agenda)
 (package! org-fragtog)
-
-
-
-
-;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
-;; (package! some-package)
 
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
@@ -61,4 +66,4 @@
 ;; ...or multiple packages
 ;; (unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
-;; (unpin! t)
+(unpin! t)
