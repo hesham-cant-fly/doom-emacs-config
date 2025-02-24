@@ -1,3 +1,2 @@
 #+title: My Doom Emacs Config
 
-Nothing to say here :3

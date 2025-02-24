@@ -3,7 +3,8 @@
 
 ;; To install a package with Doom you must declare them here and run 'doom sync'
 ;; on the command line, then restart Emacs for the changes to take effect -- or
-
+(package! catppuccin-theme)
+(package! modus-themes)
 (package! lsp-ui)
 (package! glsl-mode)
 (package! company-glsl)
@@ -16,9 +17,12 @@
   :recipe (:host github :repo "awth13/org-appear"))
 (package! org-super-agenda)
 (package! org-fragtog)
+(package! sublimity)
+(package! all-the-icons-dired
+  :recipe (:host github :repo "jtbm37/all-the-icons-dired"))
 
-
-
+(package! odin-mode
+  :recipe (:host github :repo "mattt-b/odin-mode"))
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;; (package! some-package)

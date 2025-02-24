@@ -28,12 +28,15 @@
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
 ;; refresh your font settings. If Emacs still can't find your font, it likely
 ;; wasn't installed correctly. Font issues are rarely Doom issues!
-(setq doom-font (font-spec :size 17))
+(setq doom-font (font-spec :size 20))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
+                                        ; (setq catppuccin-flavor 'mocha)
+                                        ; (setq doom-theme 'catppuccin)
 (setq doom-theme 'doom-one)
+
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -75,6 +78,13 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+;; (use-package! sublimity
+;;   :config
+;;   (require 'sublimity)
+;;   (require 'sublimity-scroll)
+;;   (require 'sublimity-attractive)
+;;   (sublimity-mode 1))
+
 (use-package! elcord
   :config
   (elcord-mode))
@@ -91,8 +101,9 @@
   (setq lsp-ui-doc-enable t))
 (add-to-list 'company-backends 'company-glsl)
 (use-package! org-roam-ui)
-(use-package! org-roam)
 (after! org-roam
+  (setq org-directory (concat (getenv "HOME") "/Documents/org/roam/"))
+  (setq org-roam-directory (file-truename org-directory))
   (setq org-roam-capture-templates
         '(
           ("d" "Default" plain
@@ -101,7 +112,7 @@
            (file+head "${slug}.org" "#+title: ${title}\n")
            :unnarrowed t)
           ("f" "Fleeting" plain
-           (file "~/Documets/org/roam/Templates/Fleeting.org")
+           (file "~/Documents/org/roam/Templates/Fleeting.org")
            :if-new
            (file+head "Fleeting/${slug}.org" "#+title: ${title}\n")
            :unnarrowed t)
@@ -109,6 +120,16 @@
            (file "~/Documents/org/roam/Templates/Index.org")
            :if-new
            (file+head "Index/${slug}.org" "#+title: Index: ${title}\n")
+           :unnarrowed t)
+          ("m" "Main Notes" plain
+           (file "~/Documents/org/roam/Templates/MainNotes.org")
+           :if-new
+           (file+head "MainNotes/${slug}.org" "#+title: ${title}\n")
+           :unnarrowed t)
+          ("e" "Exercise" plain
+           (file "~/Documents/org/roam/Templates/Exercise.org")
+           :if-new
+           (file+head "Exercises/${slug}.org" "#+title: Exercise: ${title}\n")
            :unnarrowed t)
           ("s" "Source Material" plain
            (file "~/Documents/org/roam/Templates/SourceMaterial.org")
@@ -122,6 +143,7 @@
 (after! org
   ;; (add-hook! 'org-mode-hook #'org-modern-mode)
   ;; (add-hook! 'org-agenda-finalize-hook #'org-modern-agenda)
+  (setq org-startup-with-inline-images t)
   (setq org-ellipsis "  [MORE]"
         org-hide-emphasis-markers t
         org-link-descriptive t
@@ -144,17 +166,47 @@
 
   ;; Visual Elements
   (custom-set-faces!
-    '(org-document-title :height 1.4 :weight bold)
-    '(org-level-1 :height 1.25 :weight bold :slant normal)
-    '(org-level-2 :height 1.15 :weight bold :slant normal)
-    '(org-level-3 :height 1.08 :weight bold :slant normal)
-    `(org-code :background ,(doom-darken 'bg 0.08))
-    `(org-quote :background ,(doom-darken 'bg 0.08))))
+    ;; '(org-document-title :height 2.1 :weight bold)
+    ;; '(org-level-1 :foreground "#00b6ef" :height 1.8 :weight bold :slant normal)
+    ;; '(org-level-2 :foreground "#26fb91" :height 1.50 :weight bold :slant normal)
+    ;; '(org-level-3 :foreground "#fb8a26" :height 1.2 :weight bold :slant normal)
+    `(org-code :background ,(doom-darken 'bg 0.1))
+    `(org-quote :background ,(doom-darken 'bg 0.1))))
 
 
 (after! org
+  (add-hook 'org-mode-hook (lambda () (setq display-line-numbers nil)))
   (setq org-src-fontify-natively t
         org-src-tab-acts-natively t
         org-src-window-setup 'current-window
         org-src-preserve-indentation t
         org-edit-src-content-indentation 0))
+
+(use-package! org-appear
+  :hook (org-mode . org-appear-mode)
+  :custom
+  (org-appear-autolinks t)
+  (org-appear-autosubmarkers t)
+  (org-appear-autoentities t)
+  (org-appear-autokeywords t)
+  (org-appear-inside-latex t))
+
+;; (use-package! all-the-icons-dired
+;;   :config
+;;   (add-hook! dired-mode #'all-the-icons-dired-mode))
+
+(after! lsp-mode
+  (add-hook! lsp-mode #'lsp-inlay-hints-mode))
+
+
+(after! dap-mode
+  (require 'dap-lldb)
+  (setq dap-lldb-debug-program '("/usr/bin/lldb"))
+  (dap-register-debug-template
+   "Zig LLDB dap"
+   (list :type "lldb"
+         :request "launch"
+         :name "Zig LLDB json default"
+         ;; :program "${workspaceFolder}/zig-out/bin/${fileBasenameNoExtension}"
+         :cwd "${workspaceFolder}"
+         :args [])))
