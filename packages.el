@@ -5,6 +5,7 @@
 ;; on the command line, then restart Emacs for the changes to take effect -- or
 (package! catppuccin-theme)
 (package! modus-themes)
+(package! jetbrains-darcula-theme)
 (package! lsp-ui)
 (package! glsl-mode)
 (package! company-glsl)
@@ -21,8 +22,26 @@
 (package! all-the-icons-dired
   :recipe (:host github :repo "jtbm37/all-the-icons-dired"))
 
+(package! ebnf-mode)
+(package! d-mode)
 (package! odin-mode
   :recipe (:host github :repo "mattt-b/odin-mode"))
+(package! odin-ts-mode
+  :recipe (:host github :repo "Sampie159/odin-ts-mode"))
+(package! c3-ts-mode
+  :recipe (:host github :repo "c3lang/c3-ts-mode"))
+(package! cool-mode
+  :recipe (:host github :repo "nverno/cool-mode"))
+(package! coffee-mode)
+
+(package! gruber-darker-theme)
+(package! visual-fill-column)
+
+(package! restclient)
+;; (package! dap-lldb)
+
+(package! rose-pine-theme
+  :recipe (:local-repo "themes"))
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;; (package! some-package)
